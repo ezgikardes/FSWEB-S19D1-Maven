@@ -1,0 +1,22 @@
+package com.workintech.s19d1.repository;
+
+import com.workintech.s19d1.entity.Vegetable;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+
+import java.util.List;
+
+public interface VegetableRepository extends JpaRepository<Vegetable, Long> {
+
+    @Query("SELECT v FROM Vegetable v ORDER BY v.price DESC")
+    List<Vegetable> getByPriceDesc();
+
+    @Query("SELECT v FROM Vegetable v ORDER BY v.price ASC")
+    List<Vegetable> getByPriceAsc();
+
+    @Query("SELECT v FROM Vegetable v WHERE v.name ILIKE '%:name%'")
+    List<Vegetable> getByName(String name);
+
+
+
+}

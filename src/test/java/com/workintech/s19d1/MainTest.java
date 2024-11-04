@@ -1,16 +1,15 @@
-package com.workintech.s18d2;
+package com.workintech.s19d1;
 
-import com.workintech.s18d2.entity.Fruit;
-import com.workintech.s18d2.entity.FruitType;
-import com.workintech.s18d2.entity.Vegetable;
-import com.workintech.s18d2.exceptions.PlantException;
-import com.workintech.s18d2.repository.FruitRepository;
-import com.workintech.s18d2.services.FruitServiceImpl;
+import com.workintech.s19d1.entity.Fruit;
+import com.workintech.s19d1.entity.FruitType;
+import com.workintech.s19d1.entity.Vegetable;
+import com.workintech.s19d1.exceptions.PlantException;
+import com.workintech.s19d1.repository.FruitRepository;
+import com.workintech.s19d1.services.FruitServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -106,16 +105,16 @@ class MainTest {
         vegetable.setId(2L);
         vegetable.setName("Carrot");
         vegetable.setPrice(20.0);
-        vegetable.setGrownOnTree(false);
+        vegetable.setIsGrownOnTree(false);
 
         assertEquals(2L, vegetable.getId());
         assertEquals("Carrot", vegetable.getName());
         assertEquals(20.0, vegetable.getPrice());
-        assertFalse(vegetable.isGrownOnTree());
+        assertFalse(vegetable.getIsGrownOnTree());
 
 
-        vegetable.setGrownOnTree(true);
-        assertTrue(vegetable.isGrownOnTree());
+        vegetable.setIsGrownOnTree(true);
+        assertTrue(vegetable.getIsGrownOnTree());
     }
 
     @Test
@@ -137,7 +136,7 @@ class MainTest {
     @Test
     @DisplayName("FruitRepository::searchByName should return fruits with matching name")
     void testSearchByName() {
-        List<Fruit> fruits = fruitRepository.searchByName("Apple");
+        List<Fruit> fruits = fruitRepository.getByName("Apple");
         assertEquals(1, fruits.size());
         assertEquals("Apple", fruits.get(0).getName());
     }
@@ -147,7 +146,7 @@ class MainTest {
     void testGetByIdFoundFruitService() {
         when(mockFruitRepository.findById(anyLong())).thenReturn(Optional.of(sampleFruitForFruitServiceTest));
 
-        Fruit foundFruit = fruitService.getById(1L);
+        Fruit foundFruit = fruitService.findById(1L);
 
         assertNotNull(foundFruit);
         assertEquals(sampleFruitForFruitServiceTest.getName(), foundFruit.getName());
@@ -158,7 +157,7 @@ class MainTest {
     void testGetByIdNotFoundFruitService() {
         when(mockFruitRepository.findById(anyLong())).thenReturn(Optional.empty());
 
-        assertThrows(PlantException.class, () -> fruitService.getById(1L));
+        assertThrows(PlantException.class, () -> fruitService.findById(1L));
     }
 
     @Test
@@ -198,9 +197,9 @@ class MainTest {
     @Test
     @DisplayName("FruitService::searchByName() should return fruits with the given name")
     void testSearchByNameFruitService() {
-        when(mockFruitRepository.searchByName(anyString())).thenReturn(Arrays.asList(sampleFruitForFruitServiceTest));
+        when(mockFruitRepository.getByName(anyString())).thenReturn(Arrays.asList(sampleFruitForFruitServiceTest));
 
-        List<Fruit> fruits = fruitService.searchByName("Apple");
+        List<Fruit> fruits = fruitService.getByName("Apple");
 
         assertFalse(fruits.isEmpty());
         assertEquals(1, fruits.size());
