@@ -1,8 +1,10 @@
 package com.workintech.s19d1.services;
 
+import com.workintech.s19d1.exceptions.FruitException;
 import com.workintech.s19d1.repository.FruitRepository;
 import com.workintech.s19d1.entity.Fruit;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,6 +27,10 @@ public class FruitServiceImpl implements FruitService {
 
     @Override
     public List<Fruit> getByPriceDesc() {
+        List<Fruit> allFruits = fruitRepository.getByPriceDesc();
+        if (allFruits.isEmpty()){
+            throw new FruitException("Fruit list is empty", HttpStatus.NOT_FOUND);
+        }
         return fruitRepository.getByPriceDesc();
     }
 

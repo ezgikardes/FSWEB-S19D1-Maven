@@ -1,5 +1,4 @@
-BEGIN;
-
+CREATE SCHEMA IF NOT EXISTS fsweb;
 
 CREATE TABLE IF NOT EXISTS fsweb.fruit
 (
@@ -8,7 +7,7 @@ CREATE TABLE IF NOT EXISTS fsweb.fruit
     price double precision NOT NULL,
     fruit_type character varying(10) NOT NULL,
     PRIMARY KEY (id)
-    );
+);
 
 CREATE TABLE IF NOT EXISTS fsweb.vegetable
 (
@@ -17,5 +16,6 @@ CREATE TABLE IF NOT EXISTS fsweb.vegetable
     price double precision NOT NULL,
     grown_on_tree boolean NOT NULL,
     PRIMARY KEY (id)
-    );
+);
+
 END;

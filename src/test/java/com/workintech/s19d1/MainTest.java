@@ -3,7 +3,7 @@ package com.workintech.s19d1;
 import com.workintech.s19d1.entity.Fruit;
 import com.workintech.s19d1.entity.FruitType;
 import com.workintech.s19d1.entity.Vegetable;
-import com.workintech.s19d1.exceptions.PlantException;
+import com.workintech.s19d1.exceptions.FruitException;
 import com.workintech.s19d1.repository.FruitRepository;
 import com.workintech.s19d1.services.FruitServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
@@ -157,7 +157,7 @@ class MainTest {
     void testGetByIdNotFoundFruitService() {
         when(mockFruitRepository.findById(anyLong())).thenReturn(Optional.empty());
 
-        assertThrows(PlantException.class, () -> fruitService.findById(1L));
+        assertThrows(FruitException.class, () -> fruitService.findById(1L));
     }
 
     @Test
