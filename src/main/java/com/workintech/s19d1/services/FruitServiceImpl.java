@@ -3,6 +3,7 @@ package com.workintech.s19d1.services;
 import com.workintech.s19d1.exceptions.FruitException;
 import com.workintech.s19d1.repository.FruitRepository;
 import com.workintech.s19d1.entity.Fruit;
+import com.workintech.s19d1.util.FruitValidation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -46,12 +47,13 @@ public class FruitServiceImpl implements FruitService {
 
     @Override
     public Fruit findById(Long id) {
+        FruitValidation.validateId(id);
+
         Optional<Fruit> optionalFruit = fruitRepository.findById(id);
         if(optionalFruit.isPresent()){
             return optionalFruit.get();
         } else {
-            return null;
-            //TODO exception
+            throw new FruitException("Fruit not found", HttpStatus.NOT_FOUND);
         }
     }
 
@@ -62,13 +64,13 @@ public class FruitServiceImpl implements FruitService {
 
     @Override
     public Fruit delete(Long id) {
+        FruitValidation.validateId(id);
         Optional<Fruit> optionalFruit = fruitRepository.findById(id);
         if(optionalFruit.isPresent()){
         fruitRepository.delete(optionalFruit.get());
         return optionalFruit.get();
         } else {
-            //TODO exception
-            return null;
+            throw new FruitException("Fruit not found", HttpStatus.NOT_FOUND);
         }
     }
 }

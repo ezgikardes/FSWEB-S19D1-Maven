@@ -1,8 +1,11 @@
 package com.workintech.s19d1.controller;
 
+import com.workintech.s19d1.dto.FruitResponse;
+import com.workintech.s19d1.dto.VegetableResponse;
 import com.workintech.s19d1.entity.Vegetable;
 import com.workintech.s19d1.services.VegetableService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,8 +28,9 @@ public class VegetableController {
     }
 
     @GetMapping("/{id}")
-    public Vegetable findById(@PathVariable Long id){
-        return vegetableService.findById(id);
+    public ResponseEntity<VegetableResponse> findById(@PathVariable Long id){
+        Vegetable vegetable = vegetableService.findById(id);
+        return ResponseEntity.ok(new VegetableResponse("Vegetable found", vegetable));
     }
 
     @GetMapping("/desc")
@@ -45,13 +49,15 @@ public class VegetableController {
     }
 
     @PostMapping
-    public Vegetable save(@RequestBody Vegetable vegetable){
-        return vegetableService.save(vegetable);
+    public ResponseEntity<VegetableResponse> save(@RequestBody Vegetable vegetable){
+        Vegetable savedVegetable = vegetableService.save(vegetable);
+        return ResponseEntity.ok(new VegetableResponse("Vegetable successfully saved", savedVegetable));
     }
 
     @DeleteMapping("/{id}")
-    public Vegetable delete(@PathVariable Long id){
-        return vegetableService.delete(id);
+    public ResponseEntity<VegetableResponse> delete(@PathVariable Long id){
+        Vegetable vegetable = vegetableService.delete(id);
+        return ResponseEntity.ok(new VegetableResponse("Vegetable successfully deleted", vegetable));
     }
 
 

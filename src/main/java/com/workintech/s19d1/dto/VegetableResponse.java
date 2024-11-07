@@ -1,4 +1,6 @@
 package com.workintech.s19d1.dto;
 
-public record VegetableResponse() {
+import com.workintech.s19d1.entity.Vegetable;
+
+public record VegetableResponse(String message, Vegetable vegetable) {
 }

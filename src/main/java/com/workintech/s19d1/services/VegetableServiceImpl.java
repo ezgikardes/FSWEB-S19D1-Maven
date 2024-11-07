@@ -1,8 +1,11 @@
 package com.workintech.s19d1.services;
 
 import com.workintech.s19d1.entity.Vegetable;
+import com.workintech.s19d1.exceptions.VegetableException;
 import com.workintech.s19d1.repository.VegetableRepository;
+import com.workintech.s19d1.util.VegetableValidation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,12 +27,12 @@ public class VegetableServiceImpl implements VegetableService{
 
     @Override
     public Vegetable findById(Long id) {
+        VegetableValidation.validateId(id);
         Optional<Vegetable> optionalVegetable = vegetableRepository.findById(id);
         if (optionalVegetable.isPresent()){
             return optionalVegetable.get();
         } else {
-            return null;
-            //TODO exception
+            throw new VegetableException("Fruit not found", HttpStatus.NOT_FOUND);
         }
     }
 
@@ -55,13 +58,13 @@ public class VegetableServiceImpl implements VegetableService{
 
     @Override
     public Vegetable delete(Long id) {
+        VegetableValidation.validateId(id);
         Optional<Vegetable> optionalVegetable = vegetableRepository.findById(id);
         if(optionalVegetable.isPresent()){
             vegetableRepository.delete(optionalVegetable.get());
             return optionalVegetable.get();
         } else {
-            return null;
-            //TODO exception
+            throw new VegetableException("Vegetable not found", HttpStatus.NOT_FOUND);
         }
     }
 }

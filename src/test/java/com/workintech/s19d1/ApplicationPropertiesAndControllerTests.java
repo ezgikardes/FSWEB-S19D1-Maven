@@ -82,7 +82,7 @@ class ApplicationPropertiesAndControllerTests {
 
     @Test
     void testGetFruits() throws Exception {
-        given(fruitService.getByPriceAsc()).willReturn(List.of(sampleFruit));
+        given(fruitService.findAll()).willReturn(List.of(sampleFruit));
         mockMvc.perform(get("/fruit"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(1)))
@@ -100,7 +100,7 @@ class ApplicationPropertiesAndControllerTests {
 
     @Test
     void testGetFruitsByName() throws Exception {
-        given(fruitService.searchByName("Apple")).willReturn(List.of(sampleFruit));
+        given(fruitService.getByName("Apple")).willReturn(List.of(sampleFruit));
         mockMvc.perform(get("/fruit/name/{name}", "Apple"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(1)))
@@ -114,12 +114,12 @@ class ApplicationPropertiesAndControllerTests {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(sampleFruit)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.name", is("Apple")));
+                .andExpect(jsonPath("$.fruit.name", is("Apple")));
     }
 
     @Test
     void testGetByIdSuccess() throws Exception {
-        given(fruitService.getById(1L)).willReturn(sampleFruit);
+        given(fruitService.findById(1L)).willReturn(sampleFruit);
         mockMvc.perform(get("/fruit/{id}", 1L))
                 .andExpect(status().isOk());
     }

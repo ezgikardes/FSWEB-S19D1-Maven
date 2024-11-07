@@ -1,8 +1,10 @@
 package com.workintech.s19d1.controller;
 
+import com.workintech.s19d1.dto.FruitResponse;
 import com.workintech.s19d1.entity.Fruit;
 import com.workintech.s19d1.services.FruitService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,8 +26,9 @@ public class FruitController {
     }
 
     @GetMapping("/{id}")
-    public Fruit getById(@PathVariable Long id){
-        return fruitService.findById(id);
+    public ResponseEntity<FruitResponse> getById(@PathVariable Long id){
+        Fruit fruit = fruitService.findById(id);
+        return ResponseEntity.ok(new FruitResponse("Friut found", fruit));
     }
 
     @GetMapping("/desc")
@@ -44,12 +47,14 @@ public class FruitController {
     }
 
     @PostMapping
-    public Fruit save(@RequestBody Fruit fruit){
-        return fruitService.save(fruit);
+    public ResponseEntity<FruitResponse> save(@RequestBody Fruit fruit){
+        Fruit savedFruit = fruitService.save(fruit);
+        return ResponseEntity.ok(new FruitResponse("Fruit successfully saved", savedFruit));
     }
 
     @DeleteMapping("/{id}")
-    public Fruit delete(@PathVariable Long id){
-        return fruitService.delete(id);
+    public ResponseEntity<FruitResponse> delete(@PathVariable Long id){
+        Fruit fruit = fruitService.delete(id);
+        return ResponseEntity.ok(new FruitResponse("Fruit successfully deleted", fruit));
     }
 }
